@@ -1,11 +1,13 @@
 from langchain_ollama import OllamaLLM
 from langchain_core.prompts import ChatPromptTemplate
+from tools.intent_classifier import detect_intent
 import base64
 import secrets
 from typing import Dict, TypedDict, List
 import chromadb
 import logging
 import db
+import json
 
 class Step(TypedDict):
     task: int
@@ -29,29 +31,32 @@ class Orchestrator():
         
         self.llm = OllamaLLM(model="llama3.1")
 
-    def create_planner(self, user_input: str):
+    def create_planner(self, user_input: str) -> str:
         
         """Create planner for the user request"""
         
-        with open(file="./nodes/instructions/orchestrator_system.txt") as file:
+        intent = detect_intent(user_input=user_input)
+        
+        with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/IA_Agent_Instructions_EN.txt") as file:
             instruction = file.read()
+            
             prompt = ChatPromptTemplate([
-                ("system", instruction),
-                ("human", "{user_input}")
+                ("system", "Instruction: {instruction}\n\n INTENT: {intent}"),
+                ("human", "Customer request: {user_input}")
             ])
-        
-        print(instruction)
-        
-        chat = prompt.invoke({
-            "user_input": user_input
-        })
-        
-        response = self.llm.invoke(chat)
-        
-        print("Response: " + response)
-        
+            
+            messages = prompt.format_messages(
+                intent=intent,
+                user_input=user_input,
+                instruction=instruction
+            )
+            
+            response = self.llm.invoke(messages)
+            
+            start = response.find("[")
+            end = response.rfind("]")
+            json_response = response[start:end+1].replace('{{', '{').replace('}}', '}')
+            
+            json_response = json.loads(json_response)
 
-        
-        
-        
-        
+            return json_response

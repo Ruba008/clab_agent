@@ -4,6 +4,16 @@ from langgraph.graph import StateGraph
 from typing import Dict, TypedDict
 from nodes.orchestrator import Orchestrator
 
-orchestrator1 = Orchestrator()
+class AgentState(TypedDict):
+    task_number: int
+    description: str
+    
 
-orchestrator1.create_planner("Algo nada a ver")
+orchestrator = Orchestrator()
+
+
+question = input("Welcome! What do you want to do?\n")
+
+
+orchestrator.create_planner(question)
+
