@@ -14,9 +14,9 @@ INPUT PARAMETER
 - intent (string): determines the exact groups to include in the "group" field of every task, in chronological order.
 
 INTENT → GROUP MAPPING
-- intent=research            ⇒ "group": ["research"]
-- intent=monitoring          ⇒ "group": ["research", "monitoring"]
-- intent=monitoring_runner   ⇒ "group": ["research", "monitoring", "script_runner"]
+- intent=research            ⇒ "group": "research"
+- intent=monitoring          ⇒ "group": "monitoring"
+- intent=runner              ⇒ "group": "script_runner"
 - intent=Default Fallback Intent ⇒ SPECIAL RULE (see below)
 
 Rules about intent and group:
@@ -33,12 +33,12 @@ Example:
   {{
     "task": 1,
     "description": "Open the terminal and type …",
-    "group": ["research"]
+    "group": "research"
   }},
   {{
     "task": 2,
     "description": "Verify GPU usage …",
-    "group": ["research", "monitoring"]
+    "group": "monitoring"
   }}
 ]
 
@@ -47,7 +47,7 @@ Fallback example (intent = "Default Fallback Intent"):
   {{
     "task": 1,
     "description": "Could you clarify which lab you want to run and on which devices (e.g., core switches, edge routers, or all)?",
-    "group": ["research"]
+    "group": "script_runner"
   }}
 ]
 
