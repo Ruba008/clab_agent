@@ -24,6 +24,7 @@ class SearchResult(TypedDict):
 
 class State(TypedDict):
     
+    session: str
     question: str
     intent: str
     plan: List[Task]
@@ -31,15 +32,16 @@ class State(TypedDict):
     description: str
     group: str
     responses: str
-    search_result: SearchResult
+    search_result: None | SearchResult
 
 
 def create_planner(state: State):
     
-    session = base64.urlsafe_b64encode(secrets.token_bytes(16)).rstrip(b"=").decode("ascii")
-    db.create_session(session)
+    state["session"] = base64.urlsafe_b64encode(secrets.token_bytes(16)).rstrip(b"=").decode("ascii")
+    
+    db.connect_collection(state["session"], "context")
 
-    context = db.query_context(session_id=session, user_input=state["question"])
+    context = db.query_context(user_input=state["question"])
     intent = detect_intent(user_input=state["question"])
     
     state["intent"] = intent
@@ -64,7 +66,7 @@ def create_planner(state: State):
             response = llm.invoke(messages)
             
             db.add_context(
-                session_id=session,
+                session_id=state["session"],
                 user_input=state["question"],
                 response=response
             )

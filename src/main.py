@@ -3,17 +3,10 @@ from langchain_core.prompts import PromptTemplate
 from langchain_ollama import OllamaLLM
 from typing import Dict, TypedDict, List, Union, Any
 
-from nodes.orchestrator import create_planner
+from nodes.orchestrator import create_planner, State
 from nodes.researcher import search
-class State(TypedDict):
-    question: str
-    intent: str
-    plan: List[Any]
-    task_number: int
-    description: str
-    group: str
-    responses: str
-    search_result: Dict[str, Union[str, List[Any]]]
+
+import db
 
 from langgraph.graph import StateGraph, START, END
 
@@ -26,6 +19,7 @@ if __name__ == "__main__":
     question = input("Welcome! What do you want to do?\n")
     
     state: State = {
+        "session": "",
         "question": question,
         "intent": "",
         "plan": [],
@@ -33,7 +27,7 @@ if __name__ == "__main__":
         "description": "",
         "group": "",
         "responses": "",
-        "search_result": {"technical_search": "", "teorical_search": []}
+        "search_result": None
     }
     
     
@@ -48,8 +42,6 @@ if __name__ == "__main__":
     
     final_state = graph.invoke(state)
     
-    print(final_state)
-    
     png_data = graph.get_graph().draw_mermaid_png()
     
     try:
@@ -58,6 +50,8 @@ if __name__ == "__main__":
         print("'graph.png' saved")
     except Exception as e:
         pass
+    
+    db.delete_collection(state["session"], "context")
     
     #graph_builder.add_node("Orchestrator", Orchestrator.create_planner)
     
