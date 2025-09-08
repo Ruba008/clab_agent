@@ -2,6 +2,7 @@ from collections.abc import AsyncIterator
 from typing import Any, AsyncIterator, List
 import scrapy
 from scrapy.http import Response, Request
+import tools.db as db
 
 class ClabDoc(scrapy.Spider):
     name = "clabdoc"
@@ -90,6 +91,11 @@ class ClabDoc(scrapy.Spider):
         
         
         yield page_content
+        
+        db.connect_collection(session_id=None ,collection_type="scrapy")
+        
+        db.add_context(url=response.url, response=page_content, collection_type="scrapy", session_id=None, user_input=None)
+        
         
         if len(self.list_url) != 0: 
             self.list_url.pop(0)
