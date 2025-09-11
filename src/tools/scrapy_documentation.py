@@ -2,7 +2,7 @@ from collections.abc import AsyncIterator
 from typing import Any, AsyncIterator, List
 import scrapy
 from scrapy.http import Response, Request
-import tools.db as db
+import db as db
 
 class ClabDoc(scrapy.Spider):
     name = "clabdoc"
@@ -35,50 +35,32 @@ class ClabDoc(scrapy.Spider):
             tag = element.xpath('name()').get()
             codes = element.xpath('.//code[@class="md-code__content"]')
 
-            text_code = []
+            text_code = ["Code (YAML ou SQL ou CLI)\n"]
             
             if (codes):
+                
+                
                 spans = codes.xpath('./span')
                 
                 for span in spans:
-                    text_code = text_code + ["\n                            "] + span.xpath("./span/text()").getall() if len(text_code) != 0 else span.xpath("./span/text()").getall()
+                    text_code = text_code + ["\n"] + span.xpath("./span/text()").getall() if len(text_code) != 0 else span.xpath("./span/text()").getall()
                 
-                page_content = page_content + "                         -> Code:\n                              " + "".join(text_code) + "\n"
+                page_content = page_content + "".join(text_code) + "\n\n"
             
             if (tag == "h1"):
                 title = element.xpath('text()').get()
                 
-                page_content = page_content + "-> Title: " + str(title) + "\n"
+                page_content = page_content + "# " + str(title) + "\n\n"
             
             if (tag == "h2"):
                 subtitle = element.xpath('text()').get()
                 
-                page_content = page_content + " -> Subtitle: " + str(subtitle) + "\n"
+                page_content = page_content + "## " + str(subtitle) + "\n\n"
             
             if (tag == "h3"): 
                 subtitle = element.xpath('text()').get()
                 
-                page_content = page_content + "     -> Subtitle: " + str(subtitle) + "\n"
-            
-            if (tag == "h4"): 
-                subtitle = element.xpath('text()').get()
-                
-                page_content = page_content + "         -> Subtitle: " + str(subtitle) + "\n"
-            
-            if (tag == "h5"): 
-                subtitle = element.xpath('text()').get()
-                
-                page_content = page_content + "             -> Subtitle: " + str(subtitle) + "\n"
-            
-            if (tag == "h6"): 
-                subtitle = element.xpath('text()').get()
-                
-                page_content = page_content + "                 -> Subtitle: " + str(subtitle) + "\n"
-                
-            if (tag == "p"): 
-                subtitle = element.xpath('text()').get()
-                
-                page_content = page_content + "                     -> Explain: " + str(subtitle) + "\n"
+                page_content = page_content + "### " + str(subtitle) + "\n\n"
 
         if len(self.list_url) == 0:
             

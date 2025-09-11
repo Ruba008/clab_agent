@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, model_validator
 from typing import TypedDict, List, Literal, Optional
+from langchain.callbacks.base import BaseCallbackHandler
 
 class Command(BaseModel):
     command: str
@@ -22,8 +23,18 @@ class TaskModel(BaseModel):
     group: Literal["research", "runner"]
     
 class PlanModel(BaseModel):
+    tasks_list: List[TaskModel] = Field(default_factory=list)
+
+
+class Doc(BaseModel):
+    title: str
+    subtitles: List[str]
+    explain: str
+    codeblocks: List[str]
     
-    plan: List[TaskModel] = Field(default_factory=list)
+class DocSum(BaseModel):
+    docList: List[Doc] = Field(default_factory=list)
+    
 
 class State(TypedDict):
     
@@ -33,3 +44,12 @@ class State(TypedDict):
     plan: PlanModel
     response: str
     search_result: Optional[SearchResult]
+    
+class SimpleThinkingCallback(BaseCallbackHandler):
+    def __init__(self) -> None:
+        self.ignored_tokens = {"<think>", "</think>"}
+    
+    def on_llm_new_token(self, token: str, **kwargs) -> None:
+        
+        if token not in self.ignored_tokens:
+            print(token, end="", flush=True)

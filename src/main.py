@@ -32,7 +32,7 @@ if __name__ == "__main__":
         "session": "",
         "question": question,
         "intent": "",
-        "plan": PlanModel(plan=[]),
+        "plan": PlanModel(tasks_list=[]),
         "response": "",
         "search_result": None
     }
@@ -66,4 +66,3 @@ if __name__ == "__main__":
     
     #Deleting the context collection after the session ends
     db.delete_collection(state["session"], "context")
-    
