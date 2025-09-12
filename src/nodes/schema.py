@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ConfigDict
 from typing import TypedDict, List, Literal, Optional
 from langchain.callbacks.base import BaseCallbackHandler
 
@@ -23,17 +23,24 @@ class TaskModel(BaseModel):
     group: Literal["research", "runner"]
     
 class PlanModel(BaseModel):
-    tasks_list: List[TaskModel] = Field(default_factory=list)
+    model_config = ConfigDict(populate_by_name=True)  # v2: permite popular por nome e alias
+    tasks_list: List[TaskModel] = Field(default_factory=list, alias="plan")
+
+    @model_validator(mode="before")
+    def _normalize(cls, v):
+        if isinstance(v, dict) and "tasks_list" not in v and "plan" in v:
+            v["tasks_list"] = v.get("plan", [])
+        return v
 
 
 class Doc(BaseModel):
-    title: str
-    subtitles: List[str]
-    explain: str
-    codeblocks: List[str]
-    
+    title: str = Field(description="Title of the document")
+    subtitles: List[str] = Field(description="List of subtitles in the document")
+    explain: str = Field(description="Combine ALL explanatory text between headers into ONE coherent paragraph")
+    codeblocks: List[str] = Field(description="List of code blocks in the document")
+
 class DocSum(BaseModel):
-    docList: List[Doc] = Field(default_factory=list)
+    docList: List[Doc] = Field(default_factory=list, description="List of summarized documents")
     
 
 class State(TypedDict):

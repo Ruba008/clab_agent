@@ -11,7 +11,10 @@ import secrets
 import tools.db as db
 
 # Initializing the LLM model
-llm = ChatOllama(model="qwen3:14b", temperature=0.2, disable_streaming=False)
+llm = ChatOllama(model="qwen3:latest",
+                 temperature=0.05,
+                 format="json",
+                 disable_streaming=False)
 
 # Essential for the output structuration
 parser_orch = JsonOutputParser(pydantic_object=PlanModel)

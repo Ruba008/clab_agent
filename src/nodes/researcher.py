@@ -1,12 +1,11 @@
-import json
-from typing import Dict, List
-import re
+from nodes.orchestrator import llm, response_filter
+from nodes.schema import State, SearchResult, DocSum, SimpleThinkingCallback, TaskModel, PlanModel
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
+from sentence_transformers.cross_encoder import CrossEncoder
+from typing import Dict, List
 import tools.db as db
-from nodes.orchestrator import llm, response_filter
-from nodes.schema import State, SearchResult, DocSum, SimpleThinkingCallback
-import json
+import json, re, torch, hashlib
 
 results: List[Dict] = []
 
@@ -17,45 +16,74 @@ parser_docsum = JsonOutputParser(pydantic_object=DocSum)
 
 def search(state: State):
     
-    print(state)
 
     try:
          with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/summarizer_instruction.txt") as file:
+                model_cross: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu")
+                
                 db.connect_collection(None, "scrapy")
                 
-                sum_instruction = file.read().strip().replace('{', '{{').replace('}', '}}')
+                sum_instruction: str = file.read().strip().replace('{', '{{').replace('}', '}}')
                 
-                documentation = db.query([str(state["plan"])]).get("documents")
-            
-                doc: List[str] = [re.sub(r'\\+', r'\\', str(page)) for page in documentation[0]] if documentation and documentation[0] is not None else []
-                doc = [page.replace("\\n", "\n") for page in doc]
+                docs_query = db.query([state["question"]]).get("documents")
+
+                docs: List[str] = [re.sub(r'\\+', r'\\', str(page)) for page in docs_query[0]] if docs_query and docs_query[0] is not None else []
+                docs = [page.replace("\\n", "\n").replace('{', '{{').replace('}', '}}') for page in docs]
                 
-                doc1: str = doc[0]
-                doc2: str = doc[1]
-                doc3: str = doc[2]
+                pairs = []
                 
+                plan = state["plan"] if isinstance(state["plan"], PlanModel) else PlanModel(**state["plan"])
+                
+                tasks_list = plan.tasks_list
+                
+                for task in tasks_list:
+                    task_description = task.description
+                    print(f"Task Description: {task_description}")
+                    if task.group == "runner":
+                        pairs.extend([[task_description, doc] for doc in docs])
+
+                scores = model_cross.predict(pairs)
+                
+                
+                doc_by_pair = [doc for _, doc in pairs]  # cada elemento em 'pairs' é [task_description, doc]
+                scored_docs = list(zip(map(float, scores), doc_by_pair))
+                
+                def norm_key(txt: str) -> str:
+                    norm = re.sub(r"\s+", " ", txt).strip()
+                    return hashlib.sha1(norm.encode("utf-8")).hexdigest()
+                
+                best_per_doc = {}
+                for s, d in scored_docs:
+                    k = norm_key(d)
+                    if k not in best_per_doc or s > best_per_doc[k][0]:
+                        best_per_doc[k] = (s, d)
+                
+                top3 = sorted(best_per_doc.values(), key=lambda x: x[0], reverse=True)[:3]
+                top3_docs = [d for s, d in top3]
+                
+                del model_cross
+                torch.cuda.empty_cache() if torch.cuda.is_available() else None
                 
                 # Summarizing
                 prompt_docs = PromptTemplate(
-                    input_variables=["doc1", "doc2", "doc3", "sum_instruction", "format_instruction"],
+                    input_variables=["sum_instruction"] + [f"doc{i}" for i in range(1, len(top3_docs) + 1)],
+                    partial_variables={"format_instructions": parser_docsum.get_format_instructions()},
                     template=(
-                        "== BEGIN INSTRUCTION ==\n\n{sum_instruction}\n\n" +
-                        "OUTPUT FORMAT (HARD RULES)\n{format_instruction}\n\n" +
-                        "INPUTS (3 docs):\n\n" + 
-                        "DOCUMENTATION NUMBER 1\n-- BEGIN DOCUMENTATION 1 --\n\n{doc1}\n\n-- END DOCUEMENTATION 1 --\n\n" + 
-                        "DOCUMENTATION NUMBER 2\n-- BEGIN DOCUMENTATION 2 --\n\n{doc2}\n\n-- END DOCUEMENTATION 2 --\n\n" + 
-                        "DOCUMENTATION NUMBER 3\n-- BEGIN DOCUMENTATION 3 --\n\n{doc3}\n\n-- END DOCUEMENTATION 3 --\n\n" +
-                        "== END INSTRUCTION =="
+                        "INSTRUCTION: {sum_instruction}\n\n"
+                        "INPUTS (3 docs):\n" +
+                        "".join(
+                            f"<DOC id='{i}'>\n{doc}\n</DOC>\n\n"
+                            for i, doc in enumerate(docs, start=1)
+                        )
                     )
                 )
+
                 
                 chain = prompt_docs | llm | response_filter |parser_docsum
                 
-                doc_sum: DocSum = chain.invoke({
+                doc_sum = chain.invoke({
                     "sum_instruction": sum_instruction,
-                    "doc1": doc1,
-                    "doc2": doc2,
-                    "doc3": doc3,
+                    **{f"doc{i}": doc for i, doc in enumerate(docs, start=1)},
                     "format_instruction": parser_docsum.get_format_instructions()
                 }, config={"callbacks": [SimpleThinkingCallback()]})
                 
