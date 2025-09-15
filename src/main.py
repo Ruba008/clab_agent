@@ -1,17 +1,29 @@
 from concurrent.futures import process
+import subprocess
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama import OllamaLLM
 from typing import Dict, TypedDict, List, Union, Any
 from nodes.orchestrator import create_planner, State
 from nodes.researcher import search
 from nodes.schema import PlanModel
-import tools.db as db
+from tools import db
 from langgraph.graph import StateGraph, START, END
 from IPython.display import Image, display
+import config.logger_config as logger_config, logging, time, sh
+from rich.console import Console
+from rich.traceback import install
 
 """
 Main function to run the program. 
 """
+
+
+install()
+
+logger_config.loggerConfiguration()
+logger = logging.getLogger(__name__)
+
+console = Console(force_terminal=True)
 
 
 if __name__ == "__main__":
@@ -21,6 +33,8 @@ if __name__ == "__main__":
     Question is taken as input from the user
     Nodes and edges are added to the graph
     """
+    
+    console.clear()
     
     graph_builder = StateGraph(State)
     
@@ -32,7 +46,7 @@ if __name__ == "__main__":
         "session": "",
         "question": question,
         "intent": "",
-        "plan": PlanModel(tasks_list=[]),
+        "plan": PlanModel(),
         "response": "",
         "search_result": None
     }
@@ -55,7 +69,7 @@ if __name__ == "__main__":
     
     png_data = graph.get_graph().draw_mermaid_png()
     
-    
+
     #Creating and saving the graph image
     try:
         with open("graph.png", "wb") as f:

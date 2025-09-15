@@ -5,53 +5,95 @@ from langchain_core.output_parsers import JsonOutputParser
 from sentence_transformers.cross_encoder import CrossEncoder
 from typing import Dict, List
 import tools.db as db
-import json, re, torch, hashlib
+import json, re, torch, hashlib, time
+from rich.console import Console
+from rich.rule import Rule
+from rich.tree import Tree
 
 results: List[Dict] = []
+
+
+# Stylization for rich console output
+console = Console(force_terminal=True)
+timeline_tree_researcher = Tree("⏳​ Researcher Timeline", guide_style="bold white")
+
 
 
 # Essential for the output structuration
 parser = JsonOutputParser(pydantic_object=SearchResult)
 parser_docsum = JsonOutputParser(pydantic_object=DocSum)
 
-def search(state: State):
+
+
+def print_timeline_researcher():
+    console.print(Rule("[bold blue]🔍 Research Module[/]"))
+    console.print(timeline_tree_researcher)
+    time.sleep(3)
+    console.clear()
     
 
-    try:
-         with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/summarizer_instruction.txt") as file:
-                model_cross: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu")
-                
-                db.connect_collection(None, "scrapy")
-                
-                sum_instruction: str = file.read().strip().replace('{', '{{').replace('}', '}}')
-                
-                docs_query = db.query([state["question"]]).get("documents")
 
-                docs: List[str] = [re.sub(r'\\+', r'\\', str(page)) for page in docs_query[0]] if docs_query and docs_query[0] is not None else []
-                docs = [page.replace("\\n", "\n").replace('{', '{{').replace('}', '}}') for page in docs]
-                
+def search(state: State):
+    
+    timeline_tree_researcher.add(f"[green]✓[/green] Search Module Initialized.")
+    print_timeline_researcher()
+
+    try:
+         with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/documentation_parser_qwen_v1_2.txt") as file: 
+            
+
+
+            with console.status("[bold yellow] Downloading CrossEncoder model...", spinner="dots"):
+                # Loading the cross encoder model
+                model_cross: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu")
+
+            timeline_tree_researcher.add(f"[green]✓[/green] Search Module Initialized.")
+            print_timeline_researcher()
+            
+            
+            
+            with console.status("[bold yellow] Consulting ContainerLab Documentation...", spinner="dots"):
+                #Querying the scrapy collection
+                sum_instruction: str = file.read().strip().replace('{', '{{').replace('}', '}}')            
+                query_result = db.query_scrapy([state["question"]])
+                docs_query = query_result.get("documents") if query_result else None
+
+            timeline_tree_researcher.add(f"[green]✓[/green] ContainerLab Documentation Consulted.")
+            print_timeline_researcher()
+
+
+            
+            # Cleaning the documents
+            docs: List[str] = [re.sub(r'\\+', r'\\', str(page)) for page in docs_query[0]] if docs_query and docs_query[0] is not None else []
+            docs = [page.replace("\\n", "\n").replace('{', '{{').replace('}', '}}') for page in docs]
+            
+            
+            
+            with console.status("[bold yellow] Ranking the best informations...", spinner="dots"):
+                # Scoring the documents according to the tasks of the plan
                 pairs = []
-                
                 plan = state["plan"] if isinstance(state["plan"], PlanModel) else PlanModel(**state["plan"])
-                
                 tasks_list = plan.tasks_list
                 
                 for task in tasks_list:
                     task_description = task.description
-                    print(f"Task Description: {task_description}")
                     if task.group == "runner":
                         pairs.extend([[task_description, doc] for doc in docs])
 
+                # If no runner tasks, we score all docs against the question
                 scores = model_cross.predict(pairs)
                 
                 
                 doc_by_pair = [doc for _, doc in pairs]  # cada elemento em 'pairs' é [task_description, doc]
                 scored_docs = list(zip(map(float, scores), doc_by_pair))
                 
+                
+                # Selecting the top 3 unique documents
                 def norm_key(txt: str) -> str:
                     norm = re.sub(r"\s+", " ", txt).strip()
                     return hashlib.sha1(norm.encode("utf-8")).hexdigest()
                 
+                # After normalization, keep only the best score for each unique document
                 best_per_doc = {}
                 for s, d in scored_docs:
                     k = norm_key(d)
@@ -60,69 +102,58 @@ def search(state: State):
                 
                 top3 = sorted(best_per_doc.values(), key=lambda x: x[0], reverse=True)[:3]
                 top3_docs = [d for s, d in top3]
-                
-                del model_cross
-                torch.cuda.empty_cache() if torch.cuda.is_available() else None
-                
-                # Summarizing
-                prompt_docs = PromptTemplate(
-                    input_variables=["sum_instruction"] + [f"doc{i}" for i in range(1, len(top3_docs) + 1)],
-                    partial_variables={"format_instructions": parser_docsum.get_format_instructions()},
-                    template=(
-                        "INSTRUCTION: {sum_instruction}\n\n"
-                        "INPUTS (3 docs):\n" +
-                        "".join(
-                            f"<DOC id='{i}'>\n{doc}\n</DOC>\n\n"
-                            for i, doc in enumerate(docs, start=1)
-                        )
+
+            timeline_tree_researcher.add(f"[green]✓[/green] Best responses selected.")
+            print_timeline_researcher()
+            
+            
+            
+            # Freeing memory
+            del model_cross
+            torch.cuda.empty_cache() if torch.cuda.is_available() else None
+
+
+
+            console.print("[bold green] 🧠​ Summarizing the research...")
+            
+            
+            
+            # Summarizing
+            prompt_docs = PromptTemplate(
+                input_variables=["sum_instruction"] + [f"doc{i}" for i in range(1, len(top3_docs) + 1)],
+                partial_variables={"format_instructions": parser_docsum.get_format_instructions()},
+                template=(
+                    "INSTRUCTION: {sum_instruction}\n\n"
+                    "INPUTS (3 docs):\n" +
+                    "".join(
+                        f"<DOC id='{i}'>\n{doc}\n</DOC>\n\n"
+                        for i, doc in enumerate(top3_docs, start=1)
                     )
                 )
+            )
+                
+                
+                
+            try:
+                chain = prompt_docs | llm | response_filter | parser_docsum
 
-                
-                chain = prompt_docs | llm | response_filter |parser_docsum
-                
-                doc_sum = chain.invoke({
+                doc_sum: DocSum = chain.invoke({
                     "sum_instruction": sum_instruction,
-                    **{f"doc{i}": doc for i, doc in enumerate(docs, start=1)},
-                    "format_instruction": parser_docsum.get_format_instructions()
-                }, config={"callbacks": [SimpleThinkingCallback()]})
-                
-                print(doc_sum)
-                
+                **{f"doc{i}": doc for i, doc in enumerate(docs, start=1)},
+                "format_instruction": parser_docsum.get_format_instructions()
+            }, config={"callbacks": [SimpleThinkingCallback()]})
+
+
+            except Exception as e:
+                print(f"Researcher Summarizer Error.\nError {e}")
+
+
+
+            timeline_tree_researcher.add(f"[green]✅[/green] Research Summarized.")
+            print_timeline_researcher()
+
+
+
     except Exception as e:
         print(f"Researcher Summarizer File Error.\nError {e}")    
         exit()   
-
-
-    try:
-        with open(file="nodes/instructions/search_instruction.txt") as file:
-            
-            instruction = file.read().strip().replace('{', '{{').replace('}', '}}')
-
-            prompt = PromptTemplate(
-                input_variables=["intent", "instruction", "documentation1", "documentation2", "documentation3"],
-                partial_variables={"format_instructions": parser.get_format_instructions()},
-                template=(
-                            "USER INTENT: {intent}\n"
-                            "TASKS JSON: {tasks}\n"
-                            "INSTRUCTION (hard rules):\n{instruction}\n"
-                        )
-            )
-            
-            
-            chain = prompt | llm | parser
-            
-            result: SearchResult = chain.invoke({
-                "instruction": instruction,
-                "tasks": json.dumps(state["plan"], ensure_ascii=False),
-                "intent": state["intent"]
-            })
-
-            state["search_result"] = result
-            
-    except Exception as e:
-        print(f"Researcher Instruction File Error.\nError {e}")    
-        exit()   
-
-    return state
-

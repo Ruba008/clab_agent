@@ -1,0 +1,71 @@
+DOCUMENTATION PARSER — Qwen3 Optimized (v1.2)
+
+TASK
+Extract, from 3 texts, title, subtitles, explain (≤200 words), and codeblocks (formats intact), and return a single JSON in the DocSum schema.
+
+INPUT (per document)
+- First line: url: <FULL_URL> (use only as context; do not include in the JSON).
+- “Markdown-like” content: headers #/##/###/#### (may contain inline HTML), paragraphs, and code:
+  - Fenced code blocks ```…``` (a language hint may be present).
+  - Or the exact line: Code (YAML ou SQL ou CLI) followed by code lines; it ends on a blank line, a new header, a new “Code …”, or end of document.
+
+EXTRACTION RULES
+1) title
+- Use the first # or ##. If absent: use the first ###; if nothing exists, “Untitled”.
+- Remove markdown symbols and all HTML tags.
+
+2) subtitles
+- Collect in order: all ###, ####, and any ## after the title.
+- Preserve hierarchy by sequence (you may flatten like Parent > Child).
+- Remove markdown/HTML.
+
+3) explain
+- Concatenate only non-code text between headers into a single coherent paragraph (≤200 words).
+- Exclude code blocks and markers.
+- Remove HTML (treat <br> as space/line break). Do not translate.
+
+4) codeblocks
+- Include only the content:
+  - From ```…``` (omit fences and the language hint).
+  - From “Code (YAML ou SQL ou CLI)” (omit the marker line).
+- Preserve indentation and line breaks exactly; do not trim.
+- One element per block, in order of appearance.
+
+LOGIC (per document)
+1. Read url: (context).
+2. Detect title.
+3. Collect subtitles.
+4. Build explain (no HTML, no code, ≤200 words).
+5. Capture codeblocks (format intact, original order).
+
+OUTPUT (STRICT)
+- Return EXACTLY ONE JSON object, with no extra text, no fences, no comments.
+- Schema (DocSum):
+{ "docList": [
+  { "title": "string", "subtitles": ["..."], "explain": "string", "codeblocks": ["..."] },
+  { "title": "string", "subtitles": ["..."], "explain": "string", "codeblocks": ["..."] },
+  { "title": "string", "subtitles": ["..."], "explain": "string", "codeblocks": ["..."] }
+]}
+- The position in docList corresponds to input order (1→0, 2→1, 3→2).
+
+QUALITY CHECKLIST (Qwen)
+- JSON only (no characters outside { … }).
+- Valid JSON, no trailing commas.
+- Correct escaping of " and \; line breaks as \n.
+- codeblocks with original format and order.
+- explain coherent, no code, ≤200 words.
+- subtitles in order, hierarchy implied by sequence.
+
+EDGE CASES
+- Headers with inline HTML → remove tags, keep text.
+- Cases like ```lang
+code``` → drop lang, keep code intact.
+- Consecutive “Code …” blocks → multiple items in codeblocks.
+- No subtitles → subtitles: []. No code → codeblocks: [].
+
+PROHIBITIONS (CRITICAL FOR QWEN)
+- DO NOT write anything outside the JSON.
+- DO NOT use fences ``` or prefixes like json:.
+- DO NOT fabricate missing content; use "" or [].
+- DO NOT translate source text.
+- DO NOT normalize/remove spaces inside codeblocks.
