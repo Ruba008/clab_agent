@@ -1,66 +1,64 @@
-DOCUMENTATION PARSER MODULE — Qwen3:8b Optimized (v1.1)
+DOCUMENTATION PARSER v2.0
 
-ROLE & SCOPE
-You are a specialized documentation parser. Extract structured information from Containerlab/Docker documentation pages with perfect accuracy.
+== CORE ==
+Task: Extract from 3 docs -> title, subtitles, explain (≤80 words), codeblocks (max 3)
+Output: ONLY valid JSON, no text before/after
 
-INPUT FORMAT
-You will receive 3 texts (docs).
-Each text is a single document with this structure:
-- The first line starts with: url: <FULL_URL>.
-- The remainder contains markdown-like content:
-  - Headers: #, ##, ###, #### (may include inline HTML like <em>, <strong>, <br>, <sup ...>).
-  - Explanatory text paragraphs.
-  - Code examples either:
-    - Fenced code blocks (``` … ```), or
-    - Introduced by a line exactly like: Code (YAML ou SQL ou CLI) followed by the code lines.
-      - A “Code …” block ends at the next blank line, next header, next “Code …” line, or end-of-document.
+== INPUT FORMAT ==
+Per document:
+- Line 1: url: <FULL_URL> (context only, exclude from JSON)
+- Content: Markdown headers (#/##/###/####), paragraphs, code blocks
 
-EXTRACTION RULES
+Code formats:
+1. Fenced: ```...```
+2. Labeled: "Code (YAML|SQL|CLI)" + lines until empty/header/EOF
 
-1) TITLE EXTRACTION
-- Use the first major header (# or ##) as title.
-- Remove markdown symbols and inline HTML tags; keep the text.
+== EXTRACTION RULES ==
 
-2) SUBTITLE EXTRACTION
-- Collect ALL subheaders in order (###, ####, and any subsequent ## after the main).
-- Preserve hierarchical order in the sequence; if helpful, flatten with “Parent > Child” to indicate nesting.
-- Strip markdown symbols and inline HTML tags.
+TITLE:
+- Priority: first # or ## -> first ### -> "Untitled"
+- Strip all markdown/HTML
 
-3) EXPLANATION EXTRACTION
-- Concatenate all non-code explanatory text between headers into one coherent paragraph per document.
-- Exclude any code content and code markers.
-- Keep technical terms; remove HTML tags (treat <br> as a space/newline).
-- Maximum 200 words per document.
+SUBTITLES:
+- Collect in order: all ###, ####, ## after title
+- Strip markdown/HTML
+- Empty if none: []
 
-4) CODE BLOCK EXTRACTION
-- Extract only the code content:
-  - From fenced blocks ```…``` (omit the fences).
-  - From “Code (YAML ou SQL ou CLI)” sections (omit the marker line).
-- Preserve exact indentation and line breaks.
-- One array element in code_blocks per distinct code block, in document order.
+EXPLAIN:
+- Non-code text between headers -> single paragraph
+- Max 80 words
+- Strip HTML (<br> = space)
+- Exclude code blocks/markers
 
-5) SOURCE URL
-- Parse the first line url: <...> into source_url.
+CODEBLOCKS (MAX 3):
+- Content only, no fences/labels
+- Preserve exact indentation/breaks
+- First 3 blocks only
+- Empty if none: []
 
-PROCESSING LOGIC (PER DOCUMENT)
-1. Read source_url from the first line.
-2. Identify title (first # or ## header).
-3. Collect subtitles (###, ####, and later ##, in order; keep hierarchy via order or “Parent > Child”).
-4. Build explanation from non-code text between headers (≤ 200 words).
-5. Capture all code blocks (fenced or “Code …” style) with exact formatting.
+== OUTPUT SCHEMA ==
+{
+  "docList": [
+    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
+    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
+    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []}
+  ]
+}
 
-QUALITY CHECKLIST
-- Valid JSON; no trailing commas.
-- Only the JSON object in output (no prose).
-- All strings properly escaped for JSON:
-  - Escape quotes (") and backslashes (\).
-  - Represent line breaks inside strings as \n while preserving indentation.
-- Code blocks keep exact formatting and order.
-- Explanations are coherent, concise, and exclude code.
-- Subtitles reflect the original order/hierarchy.
+Position: input order (doc1->index0, doc2->index1, doc3->index2)
 
-CRITICAL REMINDERS
-- Output ONLY the JSON object.
-- Remove markdown markers and HTML tags in titles/subtitles/explanations (keep the text).
-- Do not include the “Code (YAML ou SQL ou CLI)” marker lines in code_blocks.
-- Maintain input order: the Nth output doc corresponds to the Nth input string.
+== PROCESSING ==
+1. Skip url line
+2. Extract title
+3. Collect subtitles
+4. Build explain (≤80 words, no code)
+5. Capture codeblocks (max 3, preserve format)
+
+== VALIDATION ==
+[✓] Pure JSON output
+[✓] Valid JSON syntax
+[✓] Proper escaping (" -> \", newline -> \n)
+[✓] codeblocks ≤ 3 items
+[✓] explain ≤ 80 words
+[✓] No fabrication (use "" or [] for missing)
+[✓] Order preserved

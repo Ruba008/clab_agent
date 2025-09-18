@@ -45,8 +45,8 @@ class Doc(BaseModel):
     title: str = Field(description="Title of the document")
     subtitles: List[str] = Field(description="List of subtitles in the document")
     explain: str = Field(description="Combine ALL explanatory text between headers into ONE coherent paragraph")
-    codeblocks: List[str] = Field(description="List of code blocks in the document")
-
+    codeblocks: List[str] = Field(description="List of code blocks in the document", max_length=3)
+    
 class DocSum(BaseModel):
     docList: List[Doc] = Field(default_factory=list, description="List of summarized documents")
     
@@ -55,10 +55,11 @@ class State(TypedDict):
     
     session: str
     question: str
+    question_explained: str
     intent: str
     plan: PlanModel
     response: str
-    search_result: Optional[SearchResult]
+    search_result: Optional[DocSum]
     
 class SimpleThinkingCallback(BaseCallbackHandler):
     def __init__(self, width: int = 80, height: int = 10, title: str = "💭 Model Thinking") -> None:
@@ -66,28 +67,26 @@ class SimpleThinkingCallback(BaseCallbackHandler):
         self.height = height
         self.title = title
 
-        # Máx. chars em memória (apenas para não crescer infinito)
         self.max_chars = 50000
 
-        self._buf = deque()         # guarda todos os chars (limitado por max_chars)
+        self._buf = deque()        
         self._live = None
         self._start_depth = 0
         self._in_think = False
         self._trimmed_once = False
         self._started = False
 
-    # --- util: quebra em linhas visuais e recorta as últimas N linhas ---
     def _wrap_and_clip(self, text: str):
-        # largura interna ~ largura do painel menos bordas laterais
+        
         inner_width = max(8, self.width - 2)
-        # altura interna (linhas visíveis de texto). Com height=10 => 8 linhas
+        
         content_rows = max(1, self.height - 2)
 
         wrapped: list[str] = []
-        # preserva quebras de linha explícitas e faz soft-wrap por largura
+       
         for line in text.splitlines() or [""]:
             if line == "":
-                wrapped.append("")  # mantém linhas vazias
+                wrapped.append("")  
             else:
                 wrapped.extend(
                     textwrap.wrap(
@@ -103,7 +102,7 @@ class SimpleThinkingCallback(BaseCallbackHandler):
         trimmed = len(wrapped) > content_rows
         visible = wrapped[-content_rows:] if trimmed else wrapped
 
-        # prefixo "…" quando houve truncamento (scroll)
+   
         if trimmed and visible:
             if visible[0]:
                 visible[0] = "…" + visible[0][1:]
@@ -115,12 +114,12 @@ class SimpleThinkingCallback(BaseCallbackHandler):
     def _render(self):
         text = "".join(self._buf)
         clipped = self._wrap_and_clip(text)
-        txt = Text(clipped, no_wrap=True, overflow="crop")  # já pré-wrap
+        txt = Text(clipped, no_wrap=True, overflow="crop")  
         return Panel(
             txt,
             title=self.title,
             width=self.width,
-            height=self.height,   # OBS: 10 => 8 linhas de texto visíveis
+            height=self.height,   
             padding=0,
         )
 
@@ -153,10 +152,10 @@ class SimpleThinkingCallback(BaseCallbackHandler):
         if not self._started:
             self._start_live()
 
-        # append char a char (permite atualizar “ao vivo”)
+        
         for ch in token:
             self._buf.append(ch)
-            # limite de memória
+            
             if len(self._buf) > self.max_chars:
                 self._buf.popleft()
                 self._trimmed_once = True
@@ -171,4 +170,4 @@ class SimpleThinkingCallback(BaseCallbackHandler):
             self._live.stop()
             self._live = None
             self._started = False
-            console.print()  # quebra de linha final opcional
+            console.print()  

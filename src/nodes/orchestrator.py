@@ -6,13 +6,16 @@ from langchain_core.output_parsers import JsonOutputParser
 from tools.intent_classifier import detect_intent
 from nodes.schema import State, PlanModel, SimpleThinkingCallback
 import base64
-import re, time
+import re, time, torch
 import secrets
 import tools.db as db
 from rich.console import Console
 from rich.tree import Tree
 from rich.rule import Rule
 from rich.live import Live
+from tools.models import intent_explain
+import ollama
+
 
 # Stylization for rich console output
 console = Console(force_terminal=True)
@@ -20,10 +23,11 @@ timeline_tree_orchestrator = Tree("⏳​ Orchestrator Timeline", guide_style="b
 
 # Initialize the LLM
 try:
-    llm = ChatOllama(model="qwen3:4b",
+    llm = ChatOllama(model="qwen3:latest",
                     temperature=0.05,
                     format="json",
-                    disable_streaming=False)
+                    disable_streaming=False,
+                    keep_alive=0)
 except Exception as e:
     print(f"Error initializing LLM: {e}")
 
@@ -37,6 +41,7 @@ def print_timeline_orchestrator():
     console.print(timeline_tree_orchestrator)
     time.sleep(3)
     console.clear()
+    
 
             
 def response_filter(msg) -> str:
@@ -49,7 +54,7 @@ def response_filter(msg) -> str:
     
     return response.strip()
     
-def create_planner(state: State):
+def create_planner(state: State) -> State:
     
     """
     Plan creation
@@ -66,8 +71,8 @@ def create_planner(state: State):
     #Creating a unique session ID
     state["session"] = base64.urlsafe_b64encode(secrets.token_bytes(16)).rstrip(b"=").decode("ascii")
 
-
-
+    state["question_explained"] = intent_explain(state["question"])
+    
     #Context retrieval
     with console.status("[bold yellow] Capturing context...", spinner="dots"):
         
@@ -85,7 +90,8 @@ def create_planner(state: State):
     timeline_tree_orchestrator.add(f"[green]✓[/green] User intent detected: {state['intent']}.") 
     print_timeline_orchestrator()
     
-    
+    filter_node = RunnableLambda(response_filter)
+
     with open(file="nodes/instructions/orchestrator_instruction.txt", mode="r") as file:
         
         
@@ -104,7 +110,6 @@ def create_planner(state: State):
                 "CONTEXT:\n{context}"
             )
             
-            filter_node = RunnableLambda(response_filter)
         timeline_tree_orchestrator.add(f"[green]✓[/green] Context retrieved.")          
         print_timeline_orchestrator()
         
@@ -114,7 +119,7 @@ def create_planner(state: State):
 
         result: PlanModel = chain.invoke({
             "intent": state["intent"],
-            "user_input": state["question"],
+            "user_input": state["question_explained"],
             "instruction": instruction,
         "context": context,
         }, config={"callbacks": [SimpleThinkingCallback()]}) if chain else PlanModel()

@@ -1,3 +1,4 @@
+from langchain_ollama import ChatOllama
 from nodes.orchestrator import llm, response_filter
 from nodes.schema import State, SearchResult, DocSum, SimpleThinkingCallback, TaskModel, PlanModel
 from langchain_core.prompts import PromptTemplate
@@ -9,8 +10,15 @@ import json, re, torch, hashlib, time
 from rich.console import Console
 from rich.rule import Rule
 from rich.tree import Tree
+import ollama
 
 results: List[Dict] = []
+
+llm_research = ChatOllama(model="qwen3:latest",
+                    temperature=0.2,
+                    format="json",
+                    disable_streaming=False,
+                    keep_alive=0)
 
 
 # Stylization for rich console output
@@ -33,13 +41,13 @@ def print_timeline_researcher():
     
 
 
-def search(state: State):
+def search(state: State) -> State:
     
     timeline_tree_researcher.add(f"[green]✓[/green] Search Module Initialized.")
     print_timeline_researcher()
 
     try:
-         with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/documentation_parser_qwen_v1_2.txt") as file: 
+         with open(file="/home/ruba/Documents/laas/clab_agent/src/nodes/instructions/summarizer_instruction.txt") as file: 
             
 
 
@@ -47,7 +55,7 @@ def search(state: State):
                 # Loading the cross encoder model
                 model_cross: CrossEncoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", device="cpu")
 
-            timeline_tree_researcher.add(f"[green]✓[/green] Search Module Initialized.")
+            timeline_tree_researcher.add(f"[green]✓[/green] CrossEncoder downloaded.")
             print_timeline_researcher()
             
             
@@ -55,7 +63,7 @@ def search(state: State):
             with console.status("[bold yellow] Consulting ContainerLab Documentation...", spinner="dots"):
                 #Querying the scrapy collection
                 sum_instruction: str = file.read().strip().replace('{', '{{').replace('}', '}}')            
-                query_result = db.query_scrapy([state["question"]])
+                query_result = db.query_scrapy([state["question_explained"]]) 
                 docs_query = query_result.get("documents") if query_result else None
 
             timeline_tree_researcher.add(f"[green]✓[/green] ContainerLab Documentation Consulted.")
@@ -68,9 +76,9 @@ def search(state: State):
             docs = [page.replace("\\n", "\n").replace('{', '{{').replace('}', '}}') for page in docs]
             
             
-            
+            # Scoring the documents according to the tasks of the plan        
             with console.status("[bold yellow] Ranking the best informations...", spinner="dots"):
-                # Scoring the documents according to the tasks of the plan
+    
                 pairs = []
                 plan = state["plan"] if isinstance(state["plan"], PlanModel) else PlanModel(**state["plan"])
                 tasks_list = plan.tasks_list
@@ -132,28 +140,25 @@ def search(state: State):
                 )
             )
                 
-                
-                
-            try:
-                chain = prompt_docs | llm | response_filter | parser_docsum
 
-                doc_sum: DocSum = chain.invoke({
-                    "sum_instruction": sum_instruction,
+
+            chain = prompt_docs | llm_research | response_filter | parser_docsum
+
+            doc_sum: DocSum = chain.invoke({
+                "sum_instruction": sum_instruction,
                 **{f"doc{i}": doc for i, doc in enumerate(docs, start=1)},
                 "format_instruction": parser_docsum.get_format_instructions()
             }, config={"callbacks": [SimpleThinkingCallback()]})
-
-
-            except Exception as e:
-                print(f"Researcher Summarizer Error.\nError {e}")
-
-
+        
+            state["search_result"] = doc_sum
+        
+        
 
             timeline_tree_researcher.add(f"[green]✅[/green] Research Summarized.")
             print_timeline_researcher()
 
-
-
     except Exception as e:
         print(f"Researcher Summarizer File Error.\nError {e}")    
-        exit()   
+        exit()
+        
+    return state

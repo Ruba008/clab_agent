@@ -1,15 +1,10 @@
-from concurrent.futures import process
-import subprocess
-from langchain_core.prompts import PromptTemplate
-from langchain_ollama import OllamaLLM
-from typing import Dict, TypedDict, List, Union, Any
 from nodes.orchestrator import create_planner, State
 from nodes.researcher import search
+from nodes.runner import runner
 from nodes.schema import PlanModel
 from tools import db
 from langgraph.graph import StateGraph, START, END
-from IPython.display import Image, display
-import config.logger_config as logger_config, logging, time, sh
+import config.logger_config as logger_config, logging
 from rich.console import Console
 from rich.traceback import install
 
@@ -44,6 +39,7 @@ if __name__ == "__main__":
     #Initializing the state
     state: State = {
         "session": "",
+        "question_explained": "",
         "question": question,
         "intent": "",
         "plan": PlanModel(),
@@ -54,11 +50,13 @@ if __name__ == "__main__":
     #Nodes
     graph_builder.add_node("Orchestrator", create_planner)
     graph_builder.add_node("Researcher", search)
+    graph_builder.add_node("Runner", runner)
     
     #Edges
     graph_builder.add_edge(START, "Orchestrator")
     graph_builder.add_edge("Orchestrator", "Researcher")
-    graph_builder.add_edge("Researcher", END)
+    graph_builder.add_edge("Researcher", "Runner")
+    graph_builder.add_edge("Runner", END)
     
     
     #Graph compilation and invocation

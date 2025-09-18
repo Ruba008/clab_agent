@@ -158,9 +158,9 @@ class ClabDoc(scrapy.Spider):
             if url not in self.list_url and url not in self.processed_urls:
                 self.list_url.append(url)
         
-        yield page_content
+        page_content_filtred = page_content.replace('"', "'")
         
-        doc = Document(page_content=page_content, metadata={"url": response.url})
+        doc = Document(page_content=page_content_filtred, metadata={"url": response.url})
         self.raw_docs.append(doc)
         
         self.logger.info(f"☑️ {response.url} recorded! ({len(self.raw_docs)} docs so far)")
