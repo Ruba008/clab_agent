@@ -205,3 +205,213 @@
 [2025-09-18 13:10:59,906] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
 [2025-09-18 13:13:49,348] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
 [2025-09-18 13:24:54,471] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:29:05,474] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 13:32:43,682] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 13:33:34,164] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:35:15,438] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:40:55,532] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:45:40,072] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 13:46:48,908] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:48:48,510] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 13:57:01,507] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:00:15,494] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:01:04,135] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:03:01,423] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:11:01,599] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:21:41,843] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:22:56,581] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:23:59,223] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:26:14,943] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:41:58,712] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:51:38,241] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:52:09,045] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:53:01,818] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:53:21,125] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:54:22,824] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:54:42,096] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:55:35,661] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 14:56:21,997] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 14:59:13,886] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:14:19,092] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:18:29,961] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 15:19:21,126] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:21:09,034] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:28:03,221] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:38:12,482] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 15:38:48,409] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:40:35,454] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:45:50,582] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 15:59:23,452] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 16:46:34,113] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 16:48:42,438] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 16:49:00,440] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 16:50:28,529] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 16:55:49,959] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 17:08:39,956] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 17:09:48,817] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 17:11:36,488] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 17:17:14,448] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 17:45:46,145] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-18 17:46:42,742] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 17:48:10,881] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-18 17:53:01,675] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:21:23,922] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 04:25:18,361] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 04:26:19,296] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:27:50,626] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:38:22,445] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 04:39:13,105] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:41:00,784] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:50:03,597] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 04:50:39,205] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 04:52:11,951] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:00:10,039] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:00:49,841] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:02:34,873] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:08:32,238] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:09:12,969] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:10:45,638] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:17:54,065] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:18:48,186] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:20:21,004] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:28:43,398] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:29:13,641] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:29:55,777] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:31:23,701] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:33:01,467] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:33:48,860] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:34:31,390] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:36:05,414] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:39:16,638] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:46:11,648] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 05:47:00,442] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:48:32,685] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 05:51:43,075] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:04:07,726] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 06:05:05,255] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:06:33,348] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:10:02,454] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:20:59,311] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 06:21:36,531] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:23:03,259] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:26:24,870] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:38:20,704] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 06:38:59,501] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:40:26,155] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:44:06,699] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:56:41,423] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 06:57:29,097] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 06:58:55,816] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:02:28,406] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:14:56,712] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 07:15:36,806] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:17:03,509] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:20:33,826] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:28:01,426] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 07:28:03,416] [WARNING ] [urllib3.connectionpool:868] - Retrying (Retry(total=1, connect=1, read=2, redirect=None, status=None)) after connection broken by 'NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fe683abc310>: Failed to resolve 'us.i.posthog.com' ([Errno -3] Temporary failure in name resolution)")': /batch/
+[2025-09-19 07:28:03,417] [WARNING ] [urllib3.connectionpool:868] - Retrying (Retry(total=0, connect=0, read=2, redirect=None, status=None)) after connection broken by 'NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fe683abf610>: Failed to resolve 'us.i.posthog.com' ([Errno -3] Temporary failure in name resolution)")': /batch/
+[2025-09-19 07:28:03,417] [ERROR   ] [backoff:120] - Giving up send_request(...) after 4 tries (requests.exceptions.ConnectionError: HTTPSConnectionPool(host='us.i.posthog.com', port=443): Max retries exceeded with url: /batch/ (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x7fe683abfdd0>: Failed to resolve 'us.i.posthog.com' ([Errno -3] Temporary failure in name resolution)")))
+[2025-09-19 07:34:42,699] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 07:35:38,336] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:37:04,244] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:40:22,841] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 07:58:22,521] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 07:59:35,645] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:01:04,919] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:04:39,323] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:17:33,991] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 08:18:35,649] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:20:02,972] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:23:28,228] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:35:09,409] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 08:35:48,464] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:37:16,923] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:40:47,021] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:50:31,268] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 08:55:25,817] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 08:56:18,018] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 08:58:26,347] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 09:01:40,948] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 09:02:18,924] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 09:17:12,565] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 09:17:25,062] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 09:17:41,516] [INFO    ] [backoff:105] - Backing off send_request(...) for 0.7s (requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='us.i.posthog.com', port=443): Read timed out. (read timeout=15))
+[2025-09-19 09:18:01,578] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 09:19:27,918] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 09:22:15,450] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 10:28:32,780] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 10:33:19,131] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 10:33:54,707] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 10:35:20,188] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 10:37:54,735] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:11:42,166] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 11:11:55,426] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:12:32,896] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:14:11,610] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:17:41,787] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:40:03,065] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 11:42:13,309] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 11:42:39,182] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:43:16,676] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:45:20,077] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 11:48:47,455] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:10:38,764] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 12:11:27,678] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:12:02,500] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:14:07,200] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:16:54,155] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:21:47,229] [INFO    ] [backoff:105] - Backing off send_request(...) for 0.0s (requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='us.i.posthog.com', port=443): Read timed out. (read timeout=15))
+[2025-09-19 12:30:05,586] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 12:30:34,954] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:31:10,431] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:32:46,981] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:35:36,048] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 12:41:41,932] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:01:17,015] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 13:01:25,518] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:02:01,294] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:03:59,334] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:08:12,472] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:21:32,838] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:26:42,844] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:31:53,615] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:37:03,880] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:42:14,518] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:52:13,825] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 13:52:24,325] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:53:03,196] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 13:55:08,146] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:00:05,404] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:10:55,729] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:11:05,763] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:21:15,905] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 14:21:48,651] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:22:25,117] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:24:20,153] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:27:12,280] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:31:07,426] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:31:19,844] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:31:32,248] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:31:44,923] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:31:57,403] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:32:09,683] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:32:22,290] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:32:34,711] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:32:47,274] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:41:53,043] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 14:42:53,967] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:43:30,514] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:45:15,274] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:48:17,720] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 14:53:11,991] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:31:28,222] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 15:35:14,731] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:35:56,525] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:37:22,935] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:39:27,153] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:45:56,976] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:57:41,761] [INFO    ] [config.logger_config:24] - ☑️ Logger configuration done.
+[2025-09-19 15:58:35,363] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 15:59:13,863] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 16:01:19,579] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+[2025-09-19 16:04:40,451] [INFO    ] [httpx:1025] - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"

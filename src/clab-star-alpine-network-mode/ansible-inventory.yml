@@ -1,0 +1,17 @@
+all:
+  vars:
+    # The generated inventory is assumed to be used from the clab host.
+    # Hence no http proxy should be used. Therefore we make sure the http
+    # module does not attempt using any global http proxy.
+    ansible_httpapi_use_proxy: false
+  children:
+    linux:
+      hosts:
+        clab-star-alpine-network-mode-central:
+          ansible_host: 172.20.20.11
+        clab-star-alpine-network-mode-node1:
+          ansible_host: 172.20.20.12
+        clab-star-alpine-network-mode-node2:
+          ansible_host: 172.20.20.13
+        clab-star-alpine-network-mode-node3:
+          ansible_host: 172.20.20.14

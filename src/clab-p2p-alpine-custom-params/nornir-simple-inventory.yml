@@ -1,0 +1,11 @@
+---
+alpine1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.11
+alpine2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.12

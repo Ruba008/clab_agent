@@ -1,0 +1,144 @@
+{
+  "name": "star-linux-3",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-7789abe22dae",
+        "ipv4-subnet": "172.20.20.0/24",
+        "ipv4-gw": "172.20.20.1",
+        "ipv6-gw": "3fff:172:20:20::1",
+        "mtu": 1500,
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDqfhaRR01Ph+AG1sWcEXME6fXCF226x7KZt0TKm2q3Q"],
+  "nodes": {
+    "node1": {
+      "index": "0",
+      "shortname": "node1",
+      "longname": "clab-star-linux-3-node1",
+      "fqdn": "node1.star-linux-3.io",
+      "group": "",
+      "labdir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node1",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::4",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-7789abe22dae",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node1",
+        "clab-node-longname": "clab-star-linux-3-node1",
+        "clab-node-name": "node1",
+        "clab-node-type": "",
+        "clab-owner": "ruba",
+        "clab-topo-file": "/home/ruba/Documents/laas/clab_agent/src/output.clab.yaml",
+        "containerlab": "star-linux-3"
+      },
+      "port-bindings": [
+      ]
+    },
+    "node2": {
+      "index": "1",
+      "shortname": "node2",
+      "longname": "clab-star-linux-3-node2",
+      "fqdn": "node2.star-linux-3.io",
+      "group": "",
+      "labdir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node2",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-7789abe22dae",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node2",
+        "clab-node-longname": "clab-star-linux-3-node2",
+        "clab-node-name": "node2",
+        "clab-node-type": "",
+        "clab-owner": "ruba",
+        "clab-topo-file": "/home/ruba/Documents/laas/clab_agent/src/output.clab.yaml",
+        "containerlab": "star-linux-3"
+      },
+      "port-bindings": [
+      ]
+    },
+    "node3": {
+      "index": "2",
+      "shortname": "node3",
+      "longname": "clab-star-linux-3-node3",
+      "fqdn": "node3.star-linux-3.io",
+      "group": "",
+      "labdir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node3",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-7789abe22dae",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ruba/Documents/laas/clab_agent/src/clab-star-linux-3/node3",
+        "clab-node-longname": "clab-star-linux-3-node3",
+        "clab-node-name": "node3",
+        "clab-node-type": "",
+        "clab-owner": "ruba",
+        "clab-topo-file": "/home/ruba/Documents/laas/clab_agent/src/output.clab.yaml",
+        "containerlab": "star-linux-3"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "a": {
+        "node": "node1",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:b0:6a:c6",
+        "peer": "z"
+      },
+      "z": {
+        "node": "node2",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:96:10:f4",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "node": "node1",
+        "interface": "eth2",
+        "mac": "aa:c1:ab:89:92:43",
+        "peer": "z"
+      },
+      "z": {
+        "node": "node3",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:41:d3:d0",
+        "peer": "a"
+      }
+    }
+  ]
+}

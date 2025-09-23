@@ -1,9 +1,8 @@
-from langchain_ollama import ChatOllama
+import subprocess
 from langchain_core.runnables import RunnableLambda
 from langchain.schema import BaseMessage
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
-from tools.intent_classifier import detect_intent
 from nodes.schema import State, PlanModel, SimpleThinkingCallback
 import base64
 import re, time, torch
@@ -13,24 +12,13 @@ from rich.console import Console
 from rich.tree import Tree
 from rich.rule import Rule
 from rich.live import Live
-from tools.models import intent_explain
-import ollama
+from tools.models import intent_explain, detect_intent
+from tools.models import llm_management
 
 
 # Stylization for rich console output
 console = Console(force_terminal=True)
 timeline_tree_orchestrator = Tree("⏳​ Orchestrator Timeline", guide_style="bold white")
-
-# Initialize the LLM
-try:
-    llm = ChatOllama(model="qwen3:latest",
-                    temperature=0.05,
-                    format="json",
-                    disable_streaming=False,
-                    keep_alive=0)
-except Exception as e:
-    print(f"Error initializing LLM: {e}")
-
 
 
 # Essential for the output structuration
@@ -64,6 +52,8 @@ def create_planner(state: State) -> State:
     Response from the LLM is parsed and added to the state
     """
 
+    llm = llm_management("json")
+    
     timeline_tree_orchestrator.add(f"[green]✓[/green] LLM Initialized.")
     print_timeline_orchestrator()
     
@@ -72,6 +62,8 @@ def create_planner(state: State) -> State:
     state["session"] = base64.urlsafe_b64encode(secrets.token_bytes(16)).rstrip(b"=").decode("ascii")
 
     state["question_explained"] = intent_explain(state["question"])
+    
+    console.print(state["question_explained"])
     
     #Context retrieval
     with console.status("[bold yellow] Capturing context...", spinner="dots"):
@@ -131,4 +123,5 @@ def create_planner(state: State) -> State:
         timeline_tree_orchestrator.add(f"[green]✅[/green] Plan ready.") 
         print_timeline_orchestrator()
         
+
     return state

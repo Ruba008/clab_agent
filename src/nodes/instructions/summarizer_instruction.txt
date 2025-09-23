@@ -1,64 +1,64 @@
-DOCUMENTATION PARSER v2.0
+  DOCUMENTATION PARSER v2.0
 
-== CORE ==
-Task: Extract from 3 docs -> title, subtitles, explain (≤80 words), codeblocks (max 3)
-Output: ONLY valid JSON, no text before/after
+  == CORE ==
+  Task: Extract from 3 docs -> title, subtitles, explain (≤30 words), codeblocks (max 3)
+  Output: ONLY valid JSON, no text before/after
 
-== INPUT FORMAT ==
-Per document:
-- Line 1: url: <FULL_URL> (context only, exclude from JSON)
-- Content: Markdown headers (#/##/###/####), paragraphs, code blocks
+  == INPUT FORMAT ==
+  Per document:
+  - Line 1: url: <FULL_URL> (context only, exclude from JSON)
+  - Content: Markdown headers (#/##/###/####), paragraphs, code blocks
 
-Code formats:
-1. Fenced: ```...```
-2. Labeled: "Code (YAML|SQL|CLI)" + lines until empty/header/EOF
+  Code formats:
+  1. Fenced: ```...```
+  2. Labeled: "Code (YAML|SQL|CLI)" + lines until empty/header/EOF
 
-== EXTRACTION RULES ==
+  == EXTRACTION RULES ==
 
-TITLE:
-- Priority: first # or ## -> first ### -> "Untitled"
-- Strip all markdown/HTML
+  TITLE:
+  - Priority: first # or ## -> first ### -> "Untitled"
+  - Strip all markdown/HTML
 
-SUBTITLES:
-- Collect in order: all ###, ####, ## after title
-- Strip markdown/HTML
-- Empty if none: []
+  SUBTITLES:
+  - Collect in order: all ###, ####, ## after title
+  - Strip markdown/HTML
+  - Empty if none: []
 
-EXPLAIN:
-- Non-code text between headers -> single paragraph
-- Max 80 words
-- Strip HTML (<br> = space)
-- Exclude code blocks/markers
+  EXPLAIN:
+  - Non-code text between headers -> single paragraph
+  - Max 30 words
+  - Strip HTML (<br> = space)
+  - Exclude code blocks/markers
 
-CODEBLOCKS (MAX 3):
-- Content only, no fences/labels
-- Preserve exact indentation/breaks
-- First 3 blocks only
-- Empty if none: []
+  CODEBLOCKS (MAX 3):
+  - Content only, no fences/labels
+  - Preserve exact indentation/breaks
+  - First 3 blocks only
+  - Empty if none: []
 
-== OUTPUT SCHEMA ==
-{
-  "docList": [
-    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
-    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
-    {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []}
-  ]
-}
+  == OUTPUT SCHEMA ==
+  {
+    "docList": [
+      {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
+      {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []},
+      {"title": "string", "subtitles": [], "explain": "string", "codeblocks": []}
+    ]
+  }
 
-Position: input order (doc1->index0, doc2->index1, doc3->index2)
+  Position: input order (doc1->index0, doc2->index1, doc3->index2)
 
-== PROCESSING ==
-1. Skip url line
-2. Extract title
-3. Collect subtitles
-4. Build explain (≤80 words, no code)
-5. Capture codeblocks (max 3, preserve format)
+  == PROCESSING ==
+  1. Skip url line
+  2. Extract title
+  3. Collect subtitles
+  4. Build explain (≤30 words, no code)
+  5. Capture codeblocks (max 3, preserve format)
 
-== VALIDATION ==
-[✓] Pure JSON output
-[✓] Valid JSON syntax
-[✓] Proper escaping (" -> \", newline -> \n)
-[✓] codeblocks ≤ 3 items
-[✓] explain ≤ 80 words
-[✓] No fabrication (use "" or [] for missing)
-[✓] Order preserved
+  == VALIDATION ==
+  [✓] Pure JSON output
+  [✓] Valid JSON syntax
+  [✓] Proper escaping (" -> \", newline -> \n)
+  [✓] codeblocks ≤ 3 items
+  [✓] explain ≤ 30 words
+  [✓] No fabrication (use "" or [] for missing)
+  [✓] Order preserved

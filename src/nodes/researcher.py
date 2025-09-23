@@ -1,5 +1,5 @@
 from langchain_ollama import ChatOllama
-from nodes.orchestrator import llm, response_filter
+from nodes.orchestrator import response_filter
 from nodes.schema import State, SearchResult, DocSum, SimpleThinkingCallback, TaskModel, PlanModel
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
@@ -11,14 +11,10 @@ from rich.console import Console
 from rich.rule import Rule
 from rich.tree import Tree
 import ollama
+from tools.models import llm_management
+
 
 results: List[Dict] = []
-
-llm_research = ChatOllama(model="qwen3:latest",
-                    temperature=0.2,
-                    format="json",
-                    disable_streaming=False,
-                    keep_alive=0)
 
 
 # Stylization for rich console output
@@ -26,11 +22,9 @@ console = Console(force_terminal=True)
 timeline_tree_researcher = Tree("⏳​ Researcher Timeline", guide_style="bold white")
 
 
-
 # Essential for the output structuration
 parser = JsonOutputParser(pydantic_object=SearchResult)
 parser_docsum = JsonOutputParser(pydantic_object=DocSum)
-
 
 
 def print_timeline_researcher():
@@ -42,6 +36,8 @@ def print_timeline_researcher():
 
 
 def search(state: State) -> State:
+    
+    llm = llm_management("json")
     
     timeline_tree_researcher.add(f"[green]✓[/green] Search Module Initialized.")
     print_timeline_researcher()
@@ -142,7 +138,7 @@ def search(state: State) -> State:
                 
 
 
-            chain = prompt_docs | llm_research | response_filter | parser_docsum
+            chain = prompt_docs | llm | response_filter | parser_docsum
 
             doc_sum: DocSum = chain.invoke({
                 "sum_instruction": sum_instruction,

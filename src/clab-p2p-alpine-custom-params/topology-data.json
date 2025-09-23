@@ -1,0 +1,99 @@
+{
+  "name": "p2p-alpine-custom-params",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "clab",
+      "mgmt": {
+        "network": "clab",
+        "bridge": "br-7789abe22dae",
+        "ipv4-subnet": "172.20.20.0/24",
+        "ipv4-gw": "172.20.20.1",
+        "ipv6-gw": "3fff:172:20:20::1",
+        "mtu": 1500,
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDqfhaRR01Ph+AG1sWcEXME6fXCF226x7KZt0TKm2q3Q"],
+  "nodes": {
+    "alpine1": {
+      "index": "0",
+      "shortname": "alpine1",
+      "longname": "clab-p2p-alpine-custom-params-alpine1",
+      "fqdn": "alpine1.p2p-alpine-custom-params.io",
+      "group": "",
+      "labdir": "/home/ruba/Documents/laas/clab_agent/src/clab-p2p-alpine-custom-params/alpine1",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::2",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-7789abe22dae",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ruba/Documents/laas/clab_agent/src/clab-p2p-alpine-custom-params/alpine1",
+        "clab-node-longname": "clab-p2p-alpine-custom-params-alpine1",
+        "clab-node-name": "alpine1",
+        "clab-node-type": "",
+        "clab-owner": "ruba",
+        "clab-topo-file": "/home/ruba/Documents/laas/clab_agent/src/output.clab.yaml",
+        "containerlab": "p2p-alpine-custom-params"
+      },
+      "port-bindings": [
+      ]
+    },
+    "alpine2": {
+      "index": "1",
+      "shortname": "alpine2",
+      "longname": "clab-p2p-alpine-custom-params-alpine2",
+      "fqdn": "alpine2.p2p-alpine-custom-params.io",
+      "group": "",
+      "labdir": "/home/ruba/Documents/laas/clab_agent/src/clab-p2p-alpine-custom-params/alpine2",
+      "kind": "linux",
+      "image": "alpine:latest",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "172.20.20.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "3fff:172:20:20::3",
+      "mgmt-ipv6-prefix-length": 64,
+      "mac-address": "",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-7789abe22dae",
+        "clab-node-group": "",
+        "clab-node-kind": "linux",
+        "clab-node-lab-dir": "/home/ruba/Documents/laas/clab_agent/src/clab-p2p-alpine-custom-params/alpine2",
+        "clab-node-longname": "clab-p2p-alpine-custom-params-alpine2",
+        "clab-node-name": "alpine2",
+        "clab-node-type": "",
+        "clab-owner": "ruba",
+        "clab-topo-file": "/home/ruba/Documents/laas/clab_agent/src/output.clab.yaml",
+        "containerlab": "p2p-alpine-custom-params"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "a": {
+        "node": "alpine1",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:cd:dc:5f",
+        "peer": "z"
+      },
+      "z": {
+        "node": "alpine2",
+        "interface": "eth1",
+        "mac": "aa:c1:ab:4d:86:3f",
+        "peer": "a"
+      }
+    }
+  ]
+}

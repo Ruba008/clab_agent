@@ -1,12 +1,13 @@
 from nodes.orchestrator import create_planner, State
 from nodes.researcher import search
 from nodes.runner import runner
-from nodes.schema import PlanModel
-from tools import db
+from nodes.schema import PlanModel, DocSum
+from tools import db, models
 from langgraph.graph import StateGraph, START, END
 import config.logger_config as logger_config, logging
 from rich.console import Console
 from rich.traceback import install
+import asyncio
 
 """
 Main function to run the program. 
@@ -44,7 +45,7 @@ if __name__ == "__main__":
         "intent": "",
         "plan": PlanModel(),
         "response": "",
-        "search_result": None
+        "search_result": DocSum(docList=[])
     }
     
     #Nodes
