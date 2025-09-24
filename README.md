@@ -4,15 +4,14 @@
 # Intent-Based Network Agent (Clab Agent)
 
 
-Intelligence Artificielle pour la Modélisation de Réseaux Intent-Based avec ContainerLab
+Artificial Intelligence for Intent-Based Network Modeling with ContainerLab
 
-
-*Système d'agent intelligent développé au LAAS-CNRS pour automatiser la génération et le déploiement de topologies réseau à partir de langage naturel.*
+*Intelligent agent system developed at LAAS-CNRS to automate the generation and deployment of network topologies from natural language.*
 
 ### 👨‍🎓 Auteur
 Nathan dos Reis Ruba \
-Étudiant-Ingénieur en Automatique-Électronique Systèmes Embarqués\
-<b>Spécialisation :</b> Cybersecurité (M2 TLS-SEC)
+Student-Engineer in Automation-Electronics Embedded Systems \
+<b>Spécialisation :</b> Cybersecurity (M2 TLS-SEC)
 
 📍 INSA Toulouse - Institut National des Sciences Appliquées
 
@@ -21,50 +20,50 @@ Nathan dos Reis Ruba \
 
 
 ## 🎓 Contexte Académique
-Ce projet a été développé dans le cadre d'un stage de 3 mois au LAAS-CNRS (Laboratoire d'Analyse et d'Architecture des Systèmes) à Toulouse, France.
+This project was developed as part of a 3-month internship at LAAS-CNRS (Laboratory of Analysis and Architecture of Systems) in Toulouse, France.
 
 ### 🏛️ Instituition
-- École d'ingénieur: INSA Toulouse
-- Laboratoire: LAAS-CNRS, Toulouse
-- Équipe: Services et Architectures pour les Réseaux Avancés (SARA)
+- Engineering school: INSA Toulouse
+- Laboratory: LAAS-CNRS, Toulouse
+- Team: Services and Architectures for Advanced Networks (SARA)
 - Année: 2025
 
 ## 📦 Installation
 
-### 1. Prérquis Système
-- <b>Système d'exploitation:</b>    Linux Distro (Ubuntu recommended)
+### 1. System Prerequisites
+- <b>Operating System:</b> Linux Distro (Ubuntu recommended)
 
 
 ```bash
 # ContainerLab
 sudo bash -c "$(curl -sL https://get.containerlab.dev)" -- -v 0.69.3
 
-# Ollama pour LLMs locaux
+# Ollama for local LLMs
 curl -fsSL https://ollama.com/install.sh | sh
 
-# Modèles requis
+# Required models
 ollama pull qwen3:latest
 ollama pull qwen2.5:3b  
 ollama pull qwen2.5-coder:3b
 ```
 
-### 2. Environnement Python
+### 2. Python Environment
 ```bash
-# Cloner le projet
+# Clone the project
 git clone https://github.com/nathanreisruba/clab_agent.git
 cd clab_agent
 
-# Environnement virtuel
+# Virtual environment
 python -m venv venv
 source venv/bin/activate
 
-# Dépendances
+# Dependencies
 pip install -r requirements.txt
 ```
 
-### 3. Configuration Google Cloud
+### 3. Google Cloud Configuration
 ```bash
-# Authentification pour Dialogflow
+# Authentication for Dialogflow
 export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials.json"
 ```
 
@@ -82,79 +81,69 @@ Open `src/tools/models.py` and set:
 ```
 
 
-## 📚 Documentation Technique
+## 📚 Technical Documentation
 
-### Structure du Projet
+### Project Structure
 ```
 clab_agent/
 ├── src/
-│   ├── main.py                 # Point d'entrée principal
+│   ├── main.py                 # Main entry point
 │   ├── nodes/
-│   │   ├── orchestrator.py     # Module de planification
-│   │   ├── researcher.py       # Module de recherche
-│   │   ├── runner.py          # Module d'exécution
-│   │   ├── schema.py          # Modèles Pydantic
-│   │   └── instructions/      # Prompts LLM
+│   │   ├── orchestrator.py     # Orchestration module
+│   │   ├── researcher.py       # Research module
+│   │   ├── runner.py          # Execution module
+│   │   ├── schema.py          # Pydantic models
+│   │   └── instructions/      # LLM prompts
 │   └── tools/
-│       ├── db.py              # Interface ChromaDB
-│       ├── models.py          # Gestion LLMs
+│       ├── db.py              # ChromaDB interface
+│       ├── models.py          # LLM management
 │       └── scrapy_documentation.py
-├── requirements.txt           # Dépendances Python
+├── requirements.txt           # Python dependencies
 └── README.md                 # Documentation
 ```
-### Diagramme du Projet
+### Project Diagram
 <br></br>
 <img src="./assets/diagramme.svg" alt="Diagramme"/>
 <br></br>
 <br></br>
-- <b>Orchestrator :</b> module responsable
-d’interpréter, d’expliquer, d’identifier
-et de planifier l’objectif de
-l’utilisateur.
-- <b>Research :</b> module responsable de
-consommer des données actualisées
-de la base de données, de classer les
-meilleures informations et de les
-résumer.
-- <b>Runner :</b> module responsable de
-coder, de vérifier les dépendances
-d’exécution et de réaliser le
-déploiement.
+- <b>Orchestrator :</b> module responsible for interpreting, explaining, identifying and planning the user's objective.
+- <b>Research :</b> module responsible for consuming up-to-date data from the database, ranking the best information and summarizing it.
+- <b>Runner :</b> module responsible for coding, checking runtime dependencies and performing the deployment.
 
-### Technologies Utilisées
-#### Intelligence Artificielle
+### Technologies Used
+#### Artificial Intelligence
 
-- 🦙 Ollama : Serveur LLMs locaux (Qwen 3, Qwen 2.5, Qwen 2.5-Coder)
-- 🌐 Google Dialogflow : Classification d'intentions
-- 🔗 LangChain : Orchestration de chaînes LLM
-- 📊 Sentence Transformers : Encodeurs sémantiques cross-domain
+- 🦙 Ollama : Local LLM server (Qwen 3, Qwen 2.5, Qwen 2.5-Coder)
+- 🌐 Google Dialogflow : Intent classification
+- 🔗 LangChain : LLM chain orchestration
+- 📊 Sentence Transformers : Cross-domain semantic encoders
 
 #### Base de Données & Recherche
 
-- 🎨 ChromaDB : Base vectorielle pour recherche sémantique
-- 🤗 Hugging Face : Modèles d'embeddings (all-MiniLM-L6-v2)
-- 📄 Scrapy : Framework d'extraction documentaire
+- 🎨 ChromaDB : Vector database for semantic search
+- 🤗 Hugging Face : Embedding models (all-MiniLM-L6-v2)
+- 📄 Scrapy : Document extraction framework
 
 #### Orchestration & Graphes
 
-- 🔄 LangGraph : Graphes d'états pour workflows complexes
-- 📐 StateGraph : Gestion des transitions et dépendances
-- 🎯 Pydantic : Validation de schémas et modèles de données
+- 🔄 LangGraph : State graphs for complex workflows
+- 📐 StateGraph : Management of transitions and dependencies
+- 🎯 Pydantic : Schema validation and data models
 
 #### Conteneurisation & Réseau
 
-- 🐳 Docker API : Gestion programmatique des conteneurs
-- 🧪 ContainerLab : Déploiement de topologies réseau
+- 🐳 Docker API : Programmatic container management
+- 🧪 ContainerLab : Network topology deployment
 
 #### Interface & Visualisation
 
-- 🎨 Rich Console : Interface utilisateur avancée en terminal
-- 📊 Visualisation Web : Graphiques interactifs des topologies (clab graph)
-- ⚡ Live Updates : Feedback temps réel du processus IA
+- 🎨 Rich Console : Advanced terminal user interface
+- 📊 Web Visualization : Interactive topology graphs (clab graph)
+- ⚡ Live Updates : Real-time feedback of the AI process
 
 ## Résultats
 
-<b>Cas d'Usage Validés:</b> \
+<b>Validated Use Cases:</b>
 "Create a network star topology connected with 10 Mbps maximum"
 
 ### YAML Output
@@ -200,7 +189,7 @@ topology:
 | clab_star-bridge-mtu-node2 | linux alpine:latest | created | N/A |
 | clab_star-bridge-mtu-node3 | linux alpine:latest | created | N/A |
 
-## 🙏 Remerciements
+## 🙏 Acknowledgements
 
-- <b>LAAS-CNRS : </b> Pour l'accueil et les ressources de recherche.
-- <b>Tuteurs : </b> Pascal Berthou et Slim Abdellatif.
+- <b>LAAS-CNRS : </b> For the welcome and research resources.
+- <b>Supervisors : </b> Pascal Berthou and Slim Abdellatif.
