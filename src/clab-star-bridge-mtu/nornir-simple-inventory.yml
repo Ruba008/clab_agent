@@ -1,0 +1,21 @@
+---
+central:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.11
+node1:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.12
+node2:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.13
+node3:
+    username: 
+    password: 
+    platform: linux
+    hostname: 172.20.20.14

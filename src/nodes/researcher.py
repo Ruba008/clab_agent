@@ -148,7 +148,7 @@ def search(state: State) -> State:
         
             state["search_result"] = doc_sum
         
-        
+    
 
             timeline_tree_researcher.add(f"[green]✅[/green] Research Summarized.")
             print_timeline_researcher()

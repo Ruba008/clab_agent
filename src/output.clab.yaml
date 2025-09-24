@@ -1,4 +1,4 @@
-name: star-bridge-10mbps
+name: star-bridge-mtu
 mgmt:
   network: clab
   ipv4-subnet: 172.20.20.0/24
@@ -7,27 +7,23 @@ topology:
     central:
       kind: linux
       image: alpine:latest
-      network-mode: bridge
-      mgmt-ipv4: 10.10.10.11
+      mgmt-ipv4: 172.20.20.11
     node1:
       kind: linux
       image: alpine:latest
-      network-mode: bridge
-      mgmt-ipv4: 10.10.10.12
+      mgmt-ipv4: 172.20.20.12
     node2:
       kind: linux
       image: alpine:latest
-      network-mode: bridge
-      mgmt-ipv4: 10.10.10.13
+      mgmt-ipv4: 172.20.20.13
     node3:
       kind: linux
       image: alpine:latest
-      network-mode: bridge
-      mgmt-ipv4: 10.10.10.14
+      mgmt-ipv4: 172.20.20.14
   links:
     - endpoints: ["central:eth1", "node1:eth1"]
-      mtu: 10
+      mtu: 1500
     - endpoints: ["central:eth2", "node2:eth1"]
-      mtu: 10
+      mtu: 1500
     - endpoints: ["central:eth3", "node3:eth1"]
-      mtu: 10
+      mtu: 1500

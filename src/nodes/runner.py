@@ -16,19 +16,31 @@ from typing import Any, Dict
 import subprocess
 import webbrowser
 
+
+
+# Stylization for rich console output
 console = Console(force_terminal=True)
 
 
+
 def deploy_and_graph_topology(topology_file: str):
+    """
+    Deploy a Containerlab topology and start the graph visualization server.
+    """
+
     console.print(Rule("[bold cyan] Starting topology deployment [/bold cyan]"))
+    
+    # Construct the deployment command using sudo privileges
     deploy_command = ["sudo", "containerlab", "deploy", "-t", topology_file]
+    
     console.print(f"▶️  Executing: {' '.join(deploy_command)}")
     
     try:
+        # Execute the deployment command and capture both stdout and stderr
         process = subprocess.Popen(
             deploy_command,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT, 
+            stderr=subprocess.STDOUT, # Redirect stderr to stdout for unified output
             text=True,
             encoding='utf-8'
         )
@@ -45,23 +57,39 @@ def deploy_and_graph_topology(topology_file: str):
         console.print(f"[bold green]✓ Deployment of topology '{topology_file}' completed successfully![/bold green]")
 
     except FileNotFoundError:
+        
+        # Handle case where containerlab or sudo is not installed
         console.print("[bold red]✗ Error: The 'sudo' or 'containerlab' command was not found. Please ensure they are installed and in your PATH.[/bold red]")
         return "Command not found: 'sudo' or 'containerlab'."
+    
     except Exception as e:
+        
+        # Catch any other unexpected errors during deployment
         console.print(f"[bold red]✗ An unexpected error occurred during deployment: {e}[/bold red]")
         return str(e)
 
     console.print(Rule("[bold cyan] Starting graph server [/bold cyan]"))
+    
+    
+    # Start the graph visualization server after successful deployment
     graph_command = ["containerlab", "graph", "-t", topology_file]
+    
     
     graph_process = None
     
     try:
         console.print(f"▶️  Executing in background: {' '.join(graph_command)}")
+        
+        
+        # Start graph server in background (suppress output)
         graph_process = subprocess.Popen(graph_command, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
+        
+        # Wait a moment for server to start up
         time.sleep(2)
         
+        
+        # Open the topology visualization in default web browser
         url = "http://127.0.0.1:50080"
         console.print(f"📈 Opening the topology graph in your browser at [link={url}]{url}[/link]")
         webbrowser.open(url)
@@ -70,8 +98,12 @@ def deploy_and_graph_topology(topology_file: str):
         console.print(f"[bold red]✗ Failed to start graph server: {e}[/bold red]")
         console.print("[bold yellow]Tip: Try running 'containerlab graph -t your_file.clab.yaml' manually.[/bold yellow]")
 
+    
+    # Wait for user input to cleanup the lab
     cleanup_lab_on_enter(topology_file)
 
+
+    # Terminate the graph server process if it's running
     if graph_process:
 
         graph_process.terminate() 
@@ -82,13 +114,27 @@ def deploy_and_graph_topology(topology_file: str):
 
 
 def safe_docsum_conversion(data):
+    """
+    Safely convert various data types to DocSum format with codeblock truncation.
+    
+    This function handles different input types and ensures consistent DocSum output
+    while limiting codeblocks to prevent memory issues.
+    """
+    
+    # Return as-is if already a DocSum object
     if isinstance(data, DocSum):
         return data
     if data is None:
         return DocSum(docList=[])
+    
+    # Handle dictionary input
     if isinstance(data, dict):
         try:
+            
+            # Check if dictionary has docList key
             if 'docList' in data:
+                
+                # Truncate codeblocks in each document to prevent memory overflow
                 for doc in data['docList']:
                     if isinstance(doc, dict) and 'codeblocks' in doc:
                         if len(doc['codeblocks']) > 3:
@@ -99,11 +145,16 @@ def safe_docsum_conversion(data):
             console.print(f"[bold red] ✗ Error converting dict to DocSum: {e}")
             return DocSum(docList=[])
 
+    # Handle objects that have a docList attribute
     if hasattr(data, 'docList'):
         try:
             doc_data = {'docList': []}
             for doc in data.docList:
+                
+                # Convert document to dictionary format
                 doc_dict = doc.__dict__ if hasattr(doc, '__dict__') else doc
+                
+                # Apply codeblock truncation
                 if isinstance(doc_dict, dict) and 'codeblocks' in doc_dict:
                     if len(doc_dict['codeblocks']) > 3:
                         console.print(f"[bold yellow] ⚠️  Truncating {len(doc_dict['codeblocks'])} codeblocks to 3")
@@ -116,17 +167,26 @@ def safe_docsum_conversion(data):
 
     return DocSum(docList=[])
 
+
+
 def string_to_yaml_file(yaml_string: str, output_file: str) -> Dict[str, Any]:
+    """
+    Write a YAML string to file with validation and directory creation.
+    """
     
     try:
+        
+        # Parse YAML string to validate syntax before writing
         parsed_data = yaml.safe_load(yaml_string)
         
+        # Create Path object and determine if file exists
         file_path = Path(output_file)
         action = "Replaced" if file_path.exists() else "Created"
         
+        # Create parent directories if they don't exist
         file_path.parent.mkdir(parents=True, exist_ok=True)
         
-        
+        # Write YAML content to file with UTF-8 encoding
         with open(file_path, 'w', encoding='utf-8') as file:
             file.write(yaml_string)
         
@@ -140,18 +200,29 @@ def string_to_yaml_file(yaml_string: str, output_file: str) -> Dict[str, Any]:
         console.print(f"[bold red] ✗ Error writing the file: {e}")
         raise
 
+
+
 def cleanup_lab_on_enter(topology_file: str, input_bool: bool = True):
+    """
+    Clean up all containers associated with a Containerlab topology.
     
+    This function stops and removes all containers that belong to the specified
+    lab by using Docker labels to identify them.
+    """
+    
+    # Show lab activation message and wait for user input if requested
     if input_bool:
         console.print(Rule("[bold yellow]Lab activate[/bold yellow]"))
         console.print("The topology graph has been opened in your browser.")
         console.print("Press [bold]Enter[/bold] in this terminal to [bold red]stop and remove[/bold red] all containers from the lab.")
 
-        input()
+        input() # Wait for user to press Enter
 
         console.print(Rule("[bold red]Starting Lab Cleanup[/bold red]"))
 
     try:
+        
+        # Read the topology file to extract lab name
         with open(topology_file, 'r') as f:
             lab_data = yaml.safe_load(f)
             lab_name = lab_data.get('name')
@@ -160,9 +231,14 @@ def cleanup_lab_on_enter(topology_file: str, input_bool: bool = True):
             console.print("[bold red]✗ Could not find lab name in YAML file.[/bold red]")
             return
 
+
+        # Connect to Docker daemon
         client = docker.from_env()
+        
+        # Create label filter to find containers belonging to this specific lab
         label_filter = f"clab-lab-name={lab_name}"
         
+        # Get all containers (running and stopped) with the lab label
         lab_containers = client.containers.list(all=True, filters={"label": [label_filter]})
 
         if not lab_containers:
@@ -171,6 +247,7 @@ def cleanup_lab_on_enter(topology_file: str, input_bool: bool = True):
 
         console.print(f"Found {len(lab_containers)} container(s) for lab '{lab_name}'.")
 
+        # Stop all running containers first
         for container in lab_containers:
             try:
                 if container.status == 'running':
@@ -180,6 +257,7 @@ def cleanup_lab_on_enter(topology_file: str, input_bool: bool = True):
             except Exception as e:
                 console.print(f"[bold red]✗ Error stopping {container.name}: {e}[/bold red]")
 
+        # Remove all containers after stopping them
         for container in lab_containers:
             try:
                 console.print(f"Removing container: {container.name}...")
@@ -195,16 +273,28 @@ def cleanup_lab_on_enter(topology_file: str, input_bool: bool = True):
     except Exception as e:
         console.print(f"[bold red]✗ An unexpected error occurred during cleanup: {e}[/bold red]")
 
+
+
 def extract_and_pull_docker_images(yaml_string: str) -> List[str]:
+    """
+    Extract Docker image names from YAML and pull missing images.
+    
+    This function parses the YAML content to find Docker image references,
+    checks if they exist locally, and pulls them if they don't.
+    """
+    
     try:
         
+        # Connect to Docker daemon
         client = docker.from_env()
         
+        # Regular expression to match image lines in YAML
         image_pattern = r'^\s*image:\s*(.+)$'
         
         images_found = []
         pulled_images = []
         
+        # Scan each line of YAML for image references
         for line in yaml_string.split('\n'):
             match = re.search(image_pattern, line.strip())
             if match:
@@ -214,16 +304,20 @@ def extract_and_pull_docker_images(yaml_string: str) -> List[str]:
         
         console.print(f"Images found: {images_found}")
         
+        
+        # Process each found image
         for image_name in images_found:
             try:
                 console.print(f"[bold yellow] Verifying image: {image_name}")
 
+                # Check if image exists locally
                 try:
                     local_image = client.images.get(image_name)
                     console.print(f"[bold green] ✓ Image {image_name} already exists locally.")
                 except Exception:
                     console.print(f"[bold red] ✗ Image {image_name} not found locally.")
                 
+                # Pull the image from registry
                 console.print(f"[bold yellow] Pulling: {image_name}")
                 image = client.images.pull(image_name)
                 console.print(f"[bold green] ✓ Successfully pulled: {image_name}")
@@ -239,29 +333,42 @@ def extract_and_pull_docker_images(yaml_string: str) -> List[str]:
         raise
 
 
+
 def runner(state: State) -> State:
+    """
+    Load LLM models and instructions
+    Generate YAML topology using AI
+    Deploy the topology with error correction loop
+    Handle visualization and cleanup
+    """
     
+    
+    # Initialize Large Language Models
     llm = llm_management("")
     llm_correction = ChatOllama(model="qwen2.5-coder:3b", temperature=0.05)
     
     with open(file="nodes/instructions/runner_instruction.txt", mode="r") as file:
     
         instruction = file.read().replace('{', '{{').replace('}', '}}')
-
         console.print("[bold green] 🧠​ Generating the .yaml ...")
         
+        # Extract document list from search results with fallback to empty string
         doclist = state["search_result"].docList if state.get("search_result") and state["search_result"] and hasattr(state["search_result"], "docList") else ""
         
         console.print(doclist)
         
+        # Convert search results to safe DocSum format
         search_result = safe_docsum_conversion(state.get("search_result"))
         
+        # Create prompt template for YAML generation
         prompt = PromptTemplate(
                 input_variables=["instruction", "question"],
                 template=
                 "INSTRUCTION:\n{instruction}\n" +
                 "CLIENT QUESTION (THE OBJECTIVE): {question}\n" +
                 "=== SEARCH RESULT ===\n\n" +
+                
+                # Build context from search results with code examples
                 "".join([
                     f"DOCUMENT {i+1}:\n"
                     f"Code (Syntax) Examples:\n" + 
@@ -279,12 +386,18 @@ def runner(state: State) -> State:
             "question": state["question_explained"]
         }, config={"callbacks": [SimpleThinkingCallback()]}) if chain else ""
 
+        # Save generated YAML to file
         output_filename = "output.clab.yaml"
         string_to_yaml_file(yaml_content, output_filename)
+        
+        # Pull all Docker images referenced in the YAML
         pulled_images = extract_and_pull_docker_images(yaml_content)
         
+        # Attempt deployment and get any deployment errors
         deployment_error = deploy_and_graph_topology(output_filename)
         
+        
+        # Error correction loop: keep trying to fix and redeploy if there are errors
         if deployment_error:
             while(deployment_error):
                 
@@ -322,6 +435,6 @@ def runner(state: State) -> State:
         console.print(yaml_content)
         console.print(Rule())
         
-        
+        state["response"] = f"YAML topology generated and deployed successfully. {len(pulled_images)} images pulled: {pulled_images}"
 
     return state
