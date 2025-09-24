@@ -71,6 +71,17 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/credentials.json"
 ### 4. Import DialogFlow Project
 Go to `src/intent_classifier.zip` and import the files to [DialogFlow](https://dialogflow.cloud.google.com/).
 
+### 5. IMPORTANT: configure the DialogFlow
+Open `src/tools/models.py` and set:
+
+```python
+ # Google Cloud project configuration
+    PROJECT_ID = "" # Dialogflow project ID
+    SESSION_ID = "" # Static session for consistent context
+    LANG = "en" # Language code for input processing
+```
+
+
 ## 📚 Documentation Technique
 
 ### Structure du Projet
