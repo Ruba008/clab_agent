@@ -36,7 +36,7 @@ This project was developed as part of a 3-month internship at LAAS-CNRS (Laborat
 
 ```bash
 # ContainerLab
-sudo bash -c "$(curl -sL https://get.containerlab.dev)" -- -v 0.69.3
+sudo bash -c "$(curl -sL https://get.containerlab.dev)"
 
 # Ollama for local LLMs
 curl -fsSL https://ollama.com/install.sh | sh
@@ -50,12 +50,12 @@ ollama pull qwen2.5-coder:3b
 ### 2. Python Environment
 ```bash
 # Clone the project
-git clone https://github.com/nathanreisruba/clab_agent.git
+git clone https://github.com/Ruba008/clab_agent.git
 cd clab_agent
 
 # Virtual environment
-python -m venv venv
-source venv/bin/activate
+conda create -n clab_agent python=3.11.13
+conda activate clab_agent
 
 # Dependencies
 pip install -r requirements.txt
@@ -82,6 +82,10 @@ Open `src/tools/models.py` and set:
 
 
 ## 📚 Technical Documentation
+
+### Scrapy
+
+For scrapy the ContainerLab documentation you need to access `src` and execute `scrapy runspider ./tools/scrapy_documentation.py`.
 
 ### Project Structure
 ```
